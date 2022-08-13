@@ -13,7 +13,7 @@ public class Trainer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(
-            name = "id",
+            name = "trainer_id",
             nullable = false
     )
     private Long id;
@@ -33,7 +33,8 @@ public class Trainer {
     )
     private Gender gender;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "trainer_id", referencedColumnName = "trainer_id")
     private List<Pokemon> pokemon;
 
     public Trainer() {
