@@ -32,10 +32,8 @@ public class Trainer {
             nullable = false
     )
     private Gender gender;
-    @Column(
-            name = "pokemon",
-            nullable = false
-    )
+
+    @OneToMany
     private List<Pokemon> pokemon;
 
     public Trainer() {

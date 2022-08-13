@@ -1,7 +1,7 @@
 package com.will.pokemontrainerhub.pokemon;
 
 import com.will.pokemontrainerhub.Enums.Gender;
-import com.will.pokemontrainerhub.species.Species;
+import com.will.pokemontrainerhub.trainer.Trainer;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -22,11 +22,6 @@ public class Pokemon {
     )
     private String name;
     @Column(
-            name = "species",
-            nullable = false
-    )
-    private Species species;
-    @Column(
             name = "gender",
             nullable = false
     )
@@ -46,17 +41,19 @@ public class Pokemon {
             nullable = false
     )
     private Double weight;
+    @ManyToOne
+    private Trainer trainer;
 
     public Pokemon() {
     }
 
-    public Pokemon(String name, Species species, Gender gender, Integer level, Double height, Double weight) {
+    public Pokemon(String name, Gender gender, Integer level, Double height, Double weight, Trainer trainer) {
         this.name = name;
-        this.species = species;
         this.gender = gender;
         this.level = level;
         this.height = height;
         this.weight = weight;
+        this.trainer = trainer;
     }
 
     public Long getId() {
@@ -73,14 +70,6 @@ public class Pokemon {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Species getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(Species species) {
-        this.species = species;
     }
 
     public Gender getGender() {
@@ -115,17 +104,25 @@ public class Pokemon {
         this.weight = weight;
     }
 
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pokemon pokemon = (Pokemon) o;
-        return Objects.equals(id, pokemon.id) && Objects.equals(name, pokemon.name) && Objects.equals(species, pokemon.species) && gender == pokemon.gender && Objects.equals(level, pokemon.level) && Objects.equals(height, pokemon.height) && Objects.equals(weight, pokemon.weight);
+        return Objects.equals(id, pokemon.id) && Objects.equals(name, pokemon.name) && gender == pokemon.gender && Objects.equals(level, pokemon.level) && Objects.equals(height, pokemon.height) && Objects.equals(weight, pokemon.weight) && Objects.equals(trainer, pokemon.trainer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, species, gender, level, height, weight);
+        return Objects.hash(id, name, gender, level, height, weight, trainer);
     }
 
     @Override
@@ -133,11 +130,11 @@ public class Pokemon {
         return "Pokemon{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", species=" + species +
                 ", gender=" + gender +
                 ", level=" + level +
                 ", height=" + height +
                 ", weight=" + weight +
+                ", trainer=" + trainer +
                 '}';
     }
 }
