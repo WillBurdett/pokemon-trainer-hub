@@ -29,8 +29,8 @@ public class TrainerController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void addTrainer(@RequestBody Trainer Trainer){
-        trainerService.addTrainer(Trainer);
+    public void addTrainer(@RequestBody Trainer trainer){
+        trainerService.addTrainer(trainer);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -40,7 +40,7 @@ public class TrainerController {
     // TODO: 13/08/2022 Prevent pokemon being deleted when trainers are deleted (check cascade on trainer model) 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateTrainer(@PathVariable Long id, @RequestBody Trainer Trainer) throws TrainerNotFound {
-        trainerService.updateTrainerById(id, Trainer);
+    public void updateTrainer(@PathVariable Long id, @RequestBody Trainer trainer) throws TrainerNotFound {
+        trainerService.updateTrainerById(id, trainer);
     }
 }
