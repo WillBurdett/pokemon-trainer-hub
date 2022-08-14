@@ -1,13 +1,14 @@
 package com.will.pokemontrainerhub.pokemon;
 
+import com.will.pokemontrainerhub.Exceptions.PokemonNotFound;
+import com.will.pokemontrainerhub.Exceptions.TrainerNotFound;
 import com.will.pokemontrainerhub.trainer.Trainer;
 import com.will.pokemontrainerhub.trainer.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/pokemon")
@@ -23,5 +24,26 @@ public class PokemonController {
     @RequestMapping(method = RequestMethod.GET)
     public List<Pokemon> getAllPokemon(){
         return pokemonService.getAllPokemon();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Optional<Pokemon> getPokemonById(@PathVariable Long id) throws PokemonNotFound {
+        return pokemonService.getPokemonById(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public void addPokemon(@RequestBody Pokemon pokemon){
+        pokemonService.addPokemon(pokemon);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deletePokemonById(@PathVariable Long id){
+        pokemonService.deletePokemonById(id);
+    }
+    // TODO: 13/08/2022 Prevent pokemon being deleted when trainers are deleted (check cascade on trainer model)
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void updatePokemon(@PathVariable Long id, @RequestBody Pokemon pokemon) throws PokemonNotFound {
+        pokemonService.updatePokemonById(id, pokemon);
     }
 }
