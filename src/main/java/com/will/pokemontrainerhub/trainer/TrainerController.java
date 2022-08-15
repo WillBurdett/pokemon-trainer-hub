@@ -1,5 +1,6 @@
 package com.will.pokemontrainerhub.trainer;
 
+import com.will.pokemontrainerhub.Exceptions.PokemonNotFound;
 import com.will.pokemontrainerhub.Exceptions.TrainerNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,10 +38,14 @@ public class TrainerController {
     public void deleteTrainerById(@PathVariable Long id){
         trainerService.deleteTrainerById(id);
     }
-    // TODO: 13/08/2022 Prevent pokemon being deleted when trainers are deleted (check cascade on trainer model) 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updateTrainer(@PathVariable Long id, @RequestBody Trainer trainer) throws TrainerNotFound {
         trainerService.updateTrainerById(id, trainer);
+    }
+
+    @RequestMapping(value = "/{id}/pokemon/{pokemonId}", method = RequestMethod.PUT)
+    public void addPokemonToTrainer(@PathVariable Long id, @PathVariable Long pokemonId) throws TrainerNotFound, PokemonNotFound {
+        trainerService.addPokemonToTrainer(id, pokemonId);
     }
 }
