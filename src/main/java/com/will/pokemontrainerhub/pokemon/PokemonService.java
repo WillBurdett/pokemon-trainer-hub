@@ -13,12 +13,13 @@ import java.util.Optional;
 @Service
 public class PokemonService {
 
-    private final PokemonRepository pokemonRepository;
+    private PokemonRepository pokemonRepository;
 
     @Autowired
     PokemonService(PokemonRepository pokemonRepository){
         this.pokemonRepository = pokemonRepository;
     }
+
     public List<Pokemon> getAllPokemon() {
         return pokemonRepository.findAll();
     }

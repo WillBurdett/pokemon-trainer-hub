@@ -40,7 +40,6 @@ public class PokemonController {
     public void deletePokemonById(@PathVariable Long id){
         pokemonService.deletePokemonById(id);
     }
-    // TODO: 13/08/2022 Prevent pokemon being deleted when trainers are deleted (check cascade on trainer model)
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updatePokemon(@PathVariable Long id, @RequestBody Pokemon pokemon) throws PokemonNotFound {
