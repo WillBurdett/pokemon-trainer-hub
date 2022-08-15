@@ -33,7 +33,7 @@ public class Trainer {
     )
     private Gender gender;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "trainer_id", referencedColumnName = "trainer_id")
     private List<Pokemon> pokemon;
 
