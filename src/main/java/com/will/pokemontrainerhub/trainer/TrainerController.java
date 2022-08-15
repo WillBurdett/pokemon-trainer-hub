@@ -40,12 +40,21 @@ public class TrainerController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateTrainer(@PathVariable Long id, @RequestBody Trainer trainer) throws TrainerNotFound {
+    public void updateNonPokemonTrainerInfo(@PathVariable Long id, @RequestBody Trainer trainer) throws TrainerNotFound {
         trainerService.updateTrainerById(id, trainer);
     }
 
-    @RequestMapping(value = "/{id}/pokemon/{pokemonId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}/add-pokemon/{pokemonId}", method = RequestMethod.PUT)
     public void addPokemonToTrainer(@PathVariable Long id, @PathVariable Long pokemonId) throws TrainerNotFound, PokemonNotFound {
         trainerService.addPokemonToTrainer(id, pokemonId);
+    }
+    @RequestMapping(value = "/{id}/add-multiple-pokemon/{allPokemonIds}", method = RequestMethod.PUT)
+    public void addMultiplePokemonToTrainer(@PathVariable Long id, @PathVariable String allPokemonIds) throws TrainerNotFound, PokemonNotFound {
+        trainerService.addMultiplePokemonToTrainer(id, allPokemonIds);
+    }
+
+    @RequestMapping(value = "/{id}/remove-pokemon/{pokemonId}", method = RequestMethod.PUT)
+    public void deletePokemonFromTrainer(@PathVariable Long id, @PathVariable Long pokemonId) throws TrainerNotFound, PokemonNotFound {
+        trainerService.deletePokemonFromTrainer(id, pokemonId);
     }
 }

@@ -52,7 +52,6 @@ public class TrainerService {
             updateTrainer.setName(trainer.getName());
             updateTrainer.setAge(trainer.getAge());
             updateTrainer.setGender(trainer.getGender());
-            updateTrainer.setPokemon(trainer.getPokemon());
             trainerRepository.save(updateTrainer);
         } else {
             throw new TrainerNotFound("trainer with id " + id + " not found");
@@ -70,6 +69,42 @@ public class TrainerService {
             throw new TrainerNotFound("trainer with id " + id + " not found");
         } else if (!pokemon.isPresent()){
             throw new PokemonNotFound("pokemon with id " + pokemonId + " not found");
+        }
+    }
+
+    public void deletePokemonFromTrainer(Long id, Long pokemonId) {
+        Optional<Trainer> trainer = trainerRepository.findById(id);
+        Optional<Pokemon> pokemon = pokemonRepository.findById(pokemonId);
+
+        if (trainer.isPresent() && pokemon.isPresent()){
+            List<Pokemon> currentPokemon = trainer.get().getPokemon();
+            for (int i = 0; i < currentPokemon.size(); i++){
+                if (currentPokemon.get(i).getId() == pokemonId){
+                    currentPokemon.remove(i);
+                    trainer.get().setPokemon(currentPokemon);
+                    trainerRepository.save(trainer.get());
+                    break;
+                }
+            }
+        } else if (!trainer.isPresent()){
+            throw new TrainerNotFound("trainer with id " + id + " not found");
+        } else if (!pokemon.isPresent()){
+            throw new PokemonNotFound("pokemon with id " + pokemonId + " not found");
+        }
+    }
+
+    public void addMultiplePokemonToTrainer(Long id, String allPokemonIds) {
+        Optional<Trainer> trainerOptional = trainerRepository.findById(id);
+        if (!trainerOptional.isPresent()){
+            throw new TrainerNotFound("trainer with id " + id + " not found");
+        }
+        try {
+            String[] pokemonIdList = allPokemonIds.split(",");
+            for (String s: pokemonIdList){
+                addPokemonToTrainer(id, Long.parseLong(s));
+            }
+        } catch (Exception e){
+            throw new IllegalStateException(e.getMessage());
         }
     }
 }

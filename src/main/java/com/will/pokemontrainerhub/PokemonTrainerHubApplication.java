@@ -22,13 +22,19 @@ public class PokemonTrainerHubApplication {
 	@Bean
 	CommandLineRunner commandLineRunner (TrainerRepository trainerRepository, PokemonRepository pokemonRepository){
 		return args -> {
-			Trainer trainer = new Trainer (
+			Trainer trainer1 = new Trainer (
 					"Name",
 					21,
 					Gender.OTHER,
 					null
 			);
-			Pokemon pokemon = new Pokemon(
+			Trainer trainer2 = new Trainer (
+					"Name",
+					21,
+					Gender.OTHER,
+					null
+			);
+			Pokemon bulbasaur = new Pokemon(
 					"Bulbasaur",
 					Gender.MALE,
 					7,
@@ -36,8 +42,26 @@ public class PokemonTrainerHubApplication {
 					5.2,
 					null
 			);
-			trainer.setPokemon(Arrays.asList(pokemon));
-			trainerRepository.save(trainer);
+			Pokemon charmander = new Pokemon(
+					"Charmander",
+					Gender.MALE,
+					7,
+					0.4,
+					5.2,
+					null
+			);
+			Pokemon squirtle = new Pokemon(
+					"Squirtle",
+					Gender.MALE,
+					7,
+					0.4,
+					5.2,
+					null
+			);
+			trainer1.setPokemon(Arrays.asList(bulbasaur));
+			pokemonRepository.saveAll(Arrays.asList(squirtle, charmander));
+			trainerRepository.save(trainer1);
+			trainerRepository.save(trainer2);
 		};
 	}
 }
