@@ -7,6 +7,7 @@ import com.will.pokemontrainerhub.pokemon.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,42 +59,36 @@ public class TrainerService {
         }
     }
 
-    public void addPokemonToTrainer(Long id, Long pokemonId) throws TrainerNotFound, PokemonNotFound {
-        Optional<Trainer> trainer = trainerRepository.findById(id);
+    public void addOnePokemonByIdToTrainer(Trainer trainer, Long pokemonId) throws TrainerNotFound, PokemonNotFound {
         Optional<Pokemon> pokemon = pokemonRepository.findById(pokemonId);
 
-        if (trainer.isPresent() && pokemon.isPresent()){
-            trainer.get().getPokemon().add(pokemon.get());
-            trainerRepository.save(trainer.get());
-        } else if (!trainer.isPresent()){
-            throw new TrainerNotFound("trainer with id " + id + " not found");
-        } else if (!pokemon.isPresent()){
+        if (pokemon.isPresent()){
+            trainer.getPokemon().add(pokemon.get());
+            trainerRepository.save(trainer);
+        }  else if (!pokemon.isPresent()){
             throw new PokemonNotFound("pokemon with id " + pokemonId + " not found");
         }
     }
 
-    public void deletePokemonFromTrainer(Long id, Long pokemonId) {
-        Optional<Trainer> trainer = trainerRepository.findById(id);
+    public void removeOnePokemonByIdFromTrainer(Trainer trainer, Long pokemonId) {
         Optional<Pokemon> pokemon = pokemonRepository.findById(pokemonId);
 
-        if (trainer.isPresent() && pokemon.isPresent()){
-            List<Pokemon> currentPokemon = trainer.get().getPokemon();
+        if (pokemon.isPresent()){
+            List<Pokemon> currentPokemon = trainer.getPokemon();
             for (int i = 0; i < currentPokemon.size(); i++){
                 if (currentPokemon.get(i).getId() == pokemonId){
                     currentPokemon.remove(i);
-                    trainer.get().setPokemon(currentPokemon);
-                    trainerRepository.save(trainer.get());
+                    trainer.setPokemon(currentPokemon);
+                    trainerRepository.save(trainer);
                     break;
                 }
             }
-        } else if (!trainer.isPresent()){
-            throw new TrainerNotFound("trainer with id " + id + " not found");
         } else if (!pokemon.isPresent()){
             throw new PokemonNotFound("pokemon with id " + pokemonId + " not found");
         }
     }
 
-    public void addMultiplePokemonToTrainer(Long id, String allPokemonIds) {
+    public void addPokemonToTrainer(Long id, String allPokemonIds) {
         Optional<Trainer> trainerOptional = trainerRepository.findById(id);
         if (!trainerOptional.isPresent()){
             throw new TrainerNotFound("trainer with id " + id + " not found");
@@ -101,10 +96,35 @@ public class TrainerService {
         try {
             String[] pokemonIdList = allPokemonIds.split(",");
             for (String s: pokemonIdList){
-                addPokemonToTrainer(id, Long.parseLong(s));
+                addOnePokemonByIdToTrainer(trainerOptional.get(), Long.parseLong(s));
             }
         } catch (Exception e){
             throw new IllegalStateException(e.getMessage());
+        }
+    }
+
+    public void removePokemonFromTrainer(Long id, String allPokemonIds) {
+        Optional<Trainer> trainerOptional = trainerRepository.findById(id);
+        if (!trainerOptional.isPresent()){
+            throw new TrainerNotFound("trainer with id " + id + " not found");
+        }
+        try {
+            String[] pokemonIdList = allPokemonIds.split(",");
+            for (String s: pokemonIdList){
+                removeOnePokemonByIdFromTrainer(trainerOptional.get(), Long.parseLong(s));
+            }
+        } catch (Exception e){
+            throw new IllegalStateException(e.getMessage());
+        }
+    }
+
+    public void removeAllPokemonFromTrainer(Long id) {
+        Optional<Trainer> trainerOptional = trainerRepository.findById(id);
+        if (!trainerOptional.isPresent()){
+            throw new TrainerNotFound("trainer with id " + id + " not found");
+        } else {
+            trainerOptional.get().setPokemon(new ArrayList<>());
+            trainerRepository.save(trainerOptional.get());
         }
     }
 }

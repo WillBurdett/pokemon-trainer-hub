@@ -44,22 +44,22 @@ public class TrainerController {
         trainerService.updateTrainerById(id, trainer);
     }
 
-    @RequestMapping(value = "/{id}/add-pokemon/{pokemonId}", method = RequestMethod.PUT)
-    public void addPokemonToTrainer(@PathVariable Long id, @PathVariable Long pokemonId) throws TrainerNotFound, PokemonNotFound {
-        trainerService.addPokemonToTrainer(id, pokemonId);
-    }
-    @RequestMapping(value = "/{id}/add-multiple-pokemon/{allPokemonIds}", method = RequestMethod.PUT)
-    public void addMultiplePokemonToTrainer(@PathVariable Long id, @PathVariable String allPokemonIds) throws TrainerNotFound, PokemonNotFound {
-        trainerService.addMultiplePokemonToTrainer(id, allPokemonIds);
+    @RequestMapping(value = "/{id}/add-pokemon/{allPokemonIds}", method = RequestMethod.PUT)
+    public void addPokemonToTrainer(@PathVariable Long id, @PathVariable String allPokemonIds) throws TrainerNotFound, PokemonNotFound {
+        trainerService.addPokemonToTrainer(id, allPokemonIds);
     }
 
     // TODO: 15/08/2022 Prevent pokemon being stolen from other trainers when add (if has trainer id, don't add)
 
-    @RequestMapping(value = "/{id}/remove-pokemon/{pokemonId}", method = RequestMethod.PUT)
-    public void deletePokemonFromTrainer(@PathVariable Long id, @PathVariable Long pokemonId) throws TrainerNotFound, PokemonNotFound {
-        trainerService.deletePokemonFromTrainer(id, pokemonId);
+    @RequestMapping(value = "/{id}/remove-pokemon/{allPokemonIds}", method = RequestMethod.PUT)
+    public void removePokemonFromTrainer(@PathVariable Long id, @PathVariable String allPokemonIds) throws TrainerNotFound, PokemonNotFound {
+        trainerService.removePokemonFromTrainer(id, allPokemonIds);
     }
-    // TODO: 15/08/2022 Add a feature to remove multiple pokemon from trainer
+
+    @RequestMapping(value = "/{id}/remove-all-pokemon", method = RequestMethod.PUT)
+    public void removeAllPokemonFromTrainer(@PathVariable Long id) throws TrainerNotFound {
+        trainerService.removeAllPokemonFromTrainer(id);
+    }
 
     // TODO: 15/08/2022 Add a feature to remove all pokemon from a trainer
 }
