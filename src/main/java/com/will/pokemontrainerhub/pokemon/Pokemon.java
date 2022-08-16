@@ -1,7 +1,6 @@
 package com.will.pokemontrainerhub.pokemon;
 
 import com.will.pokemontrainerhub.Enums.Gender;
-import com.will.pokemontrainerhub.trainer.Trainer;
 
 import javax.persistence.*;
 import java.util.Objects;
