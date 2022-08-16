@@ -107,4 +107,19 @@ public class TrainerService {
             throw new IllegalStateException(e.getMessage());
         }
     }
+
+    public void removeMultiplePokemonFromTrainer(Long id, String allPokemonIds) {
+        Optional<Trainer> trainerOptional = trainerRepository.findById(id);
+        if (!trainerOptional.isPresent()){
+            throw new TrainerNotFound("trainer with id " + id + " not found");
+        }
+        try {
+            String[] pokemonIdList = allPokemonIds.split(",");
+            for (String s: pokemonIdList){
+                deletePokemonFromTrainer(id, Long.parseLong(s));
+            }
+        } catch (Exception e){
+            throw new IllegalStateException(e.getMessage());
+        }
+    }
 }

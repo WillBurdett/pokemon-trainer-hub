@@ -59,7 +59,11 @@ public class TrainerController {
     public void deletePokemonFromTrainer(@PathVariable Long id, @PathVariable Long pokemonId) throws TrainerNotFound, PokemonNotFound {
         trainerService.deletePokemonFromTrainer(id, pokemonId);
     }
-    // TODO: 15/08/2022 Add a feature to remove multiple pokemon from trainer
+
+    @RequestMapping(value = "/{id}/remove-multiple-pokemon/{allPokemonIds}", method = RequestMethod.PUT)
+    public void removeMultiplePokemonToTrainer(@PathVariable Long id, @PathVariable String allPokemonIds) throws TrainerNotFound, PokemonNotFound {
+        trainerService.removeMultiplePokemonFromTrainer(id, allPokemonIds);
+    }
 
     // TODO: 15/08/2022 Add a feature to remove all pokemon from a trainer
 }
