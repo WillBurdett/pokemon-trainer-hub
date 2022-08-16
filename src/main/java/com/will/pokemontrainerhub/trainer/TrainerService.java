@@ -61,7 +61,6 @@ public class TrainerService {
 
     public void addOnePokemonByIdToTrainer(Trainer trainer, Long pokemonId) throws TrainerNotFound, PokemonNotFound {
         Optional<Pokemon> pokemon = pokemonRepository.findById(pokemonId);
-
         if (pokemon.isPresent()){
             trainer.getPokemon().add(pokemon.get());
             trainerRepository.save(trainer);
@@ -72,7 +71,6 @@ public class TrainerService {
 
     public void removeOnePokemonByIdFromTrainer(Trainer trainer, Long pokemonId) {
         Optional<Pokemon> pokemon = pokemonRepository.findById(pokemonId);
-
         if (pokemon.isPresent()){
             List<Pokemon> currentPokemon = trainer.getPokemon();
             for (int i = 0; i < currentPokemon.size(); i++){

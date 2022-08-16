@@ -49,8 +49,6 @@ public class TrainerController {
         trainerService.addPokemonToTrainer(id, allPokemonIds);
     }
 
-    // TODO: 15/08/2022 Prevent pokemon being stolen from other trainers when add (if has trainer id, don't add)
-
     @RequestMapping(value = "/{id}/remove-pokemon/{allPokemonIds}", method = RequestMethod.PUT)
     public void removePokemonFromTrainer(@PathVariable Long id, @PathVariable String allPokemonIds) throws TrainerNotFound, PokemonNotFound {
         trainerService.removePokemonFromTrainer(id, allPokemonIds);
@@ -60,6 +58,4 @@ public class TrainerController {
     public void removeAllPokemonFromTrainer(@PathVariable Long id) throws TrainerNotFound {
         trainerService.removeAllPokemonFromTrainer(id);
     }
-
-    // TODO: 15/08/2022 Add a feature to remove all pokemon from a trainer
 }
