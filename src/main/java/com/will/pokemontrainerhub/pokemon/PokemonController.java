@@ -1,9 +1,6 @@
 package com.will.pokemontrainerhub.pokemon;
 
 import com.will.pokemontrainerhub.Exceptions.PokemonNotFound;
-import com.will.pokemontrainerhub.Exceptions.TrainerNotFound;
-import com.will.pokemontrainerhub.trainer.Trainer;
-import com.will.pokemontrainerhub.trainer.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
