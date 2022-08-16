@@ -56,7 +56,10 @@ public class TrainerController {
         trainerService.removePokemonFromTrainer(id, allPokemonIds);
     }
 
+    @RequestMapping(value = "/{id}/remove-all-pokemon", method = RequestMethod.PUT)
+    public void removeAllPokemonFromTrainer(@PathVariable Long id) throws TrainerNotFound {
+        trainerService.removeAllPokemonFromTrainer(id);
+    }
 
-    // TODO: 16/08/2022 currently checking the "isPresent()" twice in trainerService 
     // TODO: 15/08/2022 Add a feature to remove all pokemon from a trainer
 }

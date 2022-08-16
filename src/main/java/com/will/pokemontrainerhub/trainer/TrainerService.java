@@ -7,6 +7,7 @@ import com.will.pokemontrainerhub.pokemon.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,6 +115,16 @@ public class TrainerService {
             }
         } catch (Exception e){
             throw new IllegalStateException(e.getMessage());
+        }
+    }
+
+    public void removeAllPokemonFromTrainer(Long id) {
+        Optional<Trainer> trainerOptional = trainerRepository.findById(id);
+        if (!trainerOptional.isPresent()){
+            throw new TrainerNotFound("trainer with id " + id + " not found");
+        } else {
+            trainerOptional.get().setPokemon(new ArrayList<>());
+            trainerRepository.save(trainerOptional.get());
         }
     }
 }
