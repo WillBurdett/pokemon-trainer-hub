@@ -72,7 +72,7 @@ public class TrainerService {
         }
     }
 
-    public void deletePokemonFromTrainer(Long id, Long pokemonId) {
+    public void removeOnePokemonByIdFromTrainer(Long id, Long pokemonId) {
         Optional<Trainer> trainer = trainerRepository.findById(id);
         Optional<Pokemon> pokemon = pokemonRepository.findById(pokemonId);
 
@@ -101,6 +101,7 @@ public class TrainerService {
         try {
             String[] pokemonIdList = allPokemonIds.split(",");
             for (String s: pokemonIdList){
+                // pass in trainer instead
                 addOnePokemonByIdToTrainer(id, Long.parseLong(s));
             }
         } catch (Exception e){
@@ -108,7 +109,7 @@ public class TrainerService {
         }
     }
 
-    public void removeMultiplePokemonFromTrainer(Long id, String allPokemonIds) {
+    public void removePokemonFromTrainer(Long id, String allPokemonIds) {
         Optional<Trainer> trainerOptional = trainerRepository.findById(id);
         if (!trainerOptional.isPresent()){
             throw new TrainerNotFound("trainer with id " + id + " not found");
@@ -116,7 +117,7 @@ public class TrainerService {
         try {
             String[] pokemonIdList = allPokemonIds.split(",");
             for (String s: pokemonIdList){
-                deletePokemonFromTrainer(id, Long.parseLong(s));
+                removeOnePokemonByIdFromTrainer(id, Long.parseLong(s));
             }
         } catch (Exception e){
             throw new IllegalStateException(e.getMessage());
