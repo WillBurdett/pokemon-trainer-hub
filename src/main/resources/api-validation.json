@@ -234,7 +234,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pokemon"
+                "$ref": "#/components/schemas/PokemonReqBody"
               }
             }
           },
@@ -344,7 +344,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pokemon"
+                "$ref": "#/components/schemas/PokemonReqBody"
               }
             }
           },
@@ -377,6 +377,34 @@
               "FEMALE",
               "OTHER"
             ]
+          }
+        }
+      },
+      "PokemonReqBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "OTHER"
+            ]
+          },
+          "level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "height": {
+            "type": "number",
+            "format": "double"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
           }
         }
       },

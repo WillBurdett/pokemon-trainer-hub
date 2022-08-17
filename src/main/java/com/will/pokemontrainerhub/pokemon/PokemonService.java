@@ -30,24 +30,23 @@ public class PokemonService {
         }
     }
 
-    public void addPokemon(Pokemon pokemon) {
-        pokemonRepository.save(pokemon);
+    public void addPokemon(PokemonReqBody pokemon) {
+        pokemonRepository.save(new Pokemon(pokemon.getName(), pokemon.getGender(), pokemon.getLevel(), pokemon.getHeight(), pokemon.getWeight()));
     }
 
     public void deletePokemonById(Long id) {
         pokemonRepository.deleteById(id);
     }
 
-    public void updatePokemonById(Long id, Pokemon pokemon) throws PokemonNotFound {
+    public void updatePokemonById(Long id, PokemonReqBody pokemon) throws PokemonNotFound {
         Optional<Pokemon> pokemonById = pokemonRepository.findById(id);
         if (pokemonById.isPresent()){
             Pokemon updatePokemon = pokemonById.get();
             updatePokemon.setName(pokemon.getName());
+            updatePokemon.setGender(pokemon.getGender());
+            updatePokemon.setLevel(pokemon.getLevel());
             updatePokemon.setHeight(pokemon.getHeight());
             updatePokemon.setWeight(pokemon.getWeight());
-            updatePokemon.setLevel(pokemon.getLevel());
-            updatePokemon.setTrainerId(pokemon.getTrainerId());
-            updatePokemon.setGender(pokemon.getGender());
             pokemonRepository.save(updatePokemon);
         } else {
             throw new PokemonNotFound("pokemon with id " + id + " not found");

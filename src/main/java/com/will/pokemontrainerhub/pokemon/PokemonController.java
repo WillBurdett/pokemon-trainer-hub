@@ -29,7 +29,7 @@ public class PokemonController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void addPokemon(@RequestBody Pokemon pokemon){
+    public void addPokemon(@RequestBody PokemonReqBody pokemon){
         pokemonService.addPokemon(pokemon);
     }
 
@@ -39,7 +39,7 @@ public class PokemonController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updatePokemon(@PathVariable Long id, @RequestBody Pokemon pokemon) throws PokemonNotFound {
+    public void updatePokemon(@PathVariable Long id, @RequestBody PokemonReqBody pokemon) throws PokemonNotFound {
         pokemonService.updatePokemonById(id, pokemon);
     }
 }
