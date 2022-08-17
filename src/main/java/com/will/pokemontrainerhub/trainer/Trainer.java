@@ -48,6 +48,13 @@ public class Trainer {
         this.pokemon = null;
     }
 
+    public Trainer(Long id, String name, Integer age, Gender gender, List<Pokemon> pokemon) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.pokemon = pokemon;
+    }
 
     public Long getId() {
         return id;

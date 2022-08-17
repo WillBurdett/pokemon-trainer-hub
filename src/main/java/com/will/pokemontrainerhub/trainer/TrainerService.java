@@ -32,7 +32,7 @@ public class TrainerService {
     public Optional<Trainer> getTrainerById(Long id) throws TrainerNotFound {
         Optional<Trainer> trainerWithName = trainerRepository.findById(id);
         if (trainerWithName.isPresent()){
-            return trainerRepository.findById(id);
+            return trainerWithName;
         } else {
             throw new TrainerNotFound("trainer with id " + id + " not found");
         }
