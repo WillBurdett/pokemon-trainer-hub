@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
@@ -56,7 +57,21 @@ class TrainerControllerTest {
     }
 
     @Test
-    void getTrainerById() {
+    void getTrainerById() throws Exception {
+        Trainer bob = new Trainer(1L, "bob", 2, Gender.MALE, new ArrayList<>());
+        when(service.getTrainerById(1L)).thenReturn(Optional.of(bob));
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/trainer/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.name", is("bob")))
+                .andExpect(jsonPath("$.age", is(2)))
+                .andExpect(jsonPath("$.pokemon", hasSize(0)))
+                .andExpect(jsonPath("$.gender", is("MALE")));
+
+        verify(service, times(1)).getTrainerById(1L);
     }
 
     @Test
