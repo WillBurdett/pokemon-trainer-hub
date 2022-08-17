@@ -3,7 +3,9 @@ package com.will.pokemontrainerhub.trainer.unittests;
 import com.will.pokemontrainerhub.Enums.Gender;
 import com.will.pokemontrainerhub.trainer.Trainer;
 import com.will.pokemontrainerhub.trainer.TrainerController;
+import com.will.pokemontrainerhub.trainer.TrainerReqBody;
 import com.will.pokemontrainerhub.trainer.TrainerService;
+import com.will.pokemontrainerhub.utils.JsonUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -23,6 +26,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.RequestEntity.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -75,26 +81,53 @@ class TrainerControllerTest {
     }
 
     @Test
-    void addTrainer() {
+    void addTrainer() throws Exception {
+        TrainerReqBody bob = new TrainerReqBody("bob", 2, Gender.MALE);
+        mockMvc.perform(post("/trainer")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(bob)))
+                .andExpect(status().isOk());
+
+        verify(service, times(1)).addTrainer(bob);
     }
 
     @Test
-    void deleteTrainerById() {
+    void deleteTrainerById() throws Exception {
+        mockMvc.perform(delete("/trainer/1"));
+        verify(service, times(1)).deleteTrainerById(1L);
     }
 
     @Test
-    void updateNonPokemonTrainerInfo() {
+    void updateNonPokemonTrainerInfo() throws Exception {
+        TrainerReqBody bob = new TrainerReqBody ("bob", 2, Gender.MALE);
+        mockMvc.perform(MockMvcRequestBuilders.put("/trainer/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.toJson(bob)))
+                .andExpect(status().isOk());
+        verify(service, times(1)).updateTrainerById(1L, bob);
     }
 
     @Test
-    void addPokemonToTrainer() {
+    void addPokemonToTrainer() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/trainer/1/add-pokemon/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        verify(service, times(1)).addPokemonToTrainer(1L, "1");
     }
 
     @Test
-    void removePokemonFromTrainer() {
+    void removePokemonFromTrainer() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/trainer/1/remove-pokemon/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+        verify(service, times(1)).removePokemonFromTrainer(1L, "1");
     }
 
     @Test
-    void removeAllPokemonFromTrainer() {
+    void removeAllPokemonFromTrainer() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/trainer/1/remove-all-pokemon")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+        verify(service, times(1)).removeAllPokemonFromTrainer(1L);
     }
 }

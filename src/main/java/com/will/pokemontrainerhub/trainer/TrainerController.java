@@ -29,7 +29,6 @@ public class TrainerController {
         return trainerService.getTrainerById(id);
     }
 
-    // TODO: 16/08/2022 allow trainers to be created without entering pokemon owned, with matching swagger doc (TrainerNoPokemon model)
     @RequestMapping(method = RequestMethod.POST)
     public void addTrainer(@RequestBody TrainerReqBody trainer){
         trainerService.addTrainer(trainer);
@@ -40,7 +39,6 @@ public class TrainerController {
         trainerService.deleteTrainerById(id);
     }
 
-    // TODO: 16/08/2022 allow trainers to be created without entering pokemon owned, with matching swagger doc (TrainerNoPokemon model)
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updateNonPokemonTrainerInfo(@PathVariable Long id, @RequestBody TrainerReqBody trainer) throws TrainerNotFound {
         trainerService.updateTrainerById(id, trainer);
