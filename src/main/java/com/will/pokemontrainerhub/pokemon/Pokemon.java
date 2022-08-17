@@ -57,13 +57,13 @@ public class Pokemon {
         this.trainerId = trainerId;
     }
 
-    public Pokemon(String name, Gender gender, Integer level, Double height, Double weight, Long trainerId) {
+    public Pokemon(String name, Gender gender, Integer level, Double height, Double weight) {
         this.name = name;
         this.gender = gender;
         this.level = level;
         this.height = height;
         this.weight = weight;
-        this.trainerId = trainerId;
+        this.trainerId = null;
     }
 
     public Long getId() {

@@ -64,24 +64,21 @@ public class ValidationAndHydration {
                     Gender.MALE,
                     7,
                     0.4,
-                    5.2,
-                    null
+                    5.2
             );
             Pokemon charmander = new Pokemon(
                     "Charmander",
                     Gender.MALE,
                     7,
                     0.4,
-                    5.2,
-                    null
+                    5.2
             );
             Pokemon squirtle = new Pokemon(
                     "Squirtle",
                     Gender.MALE,
                     7,
                     0.4,
-                    5.2,
-                    null
+                    5.2
             );
 
             pokemonRepository.saveAll(Arrays.asList(squirtle, charmander, bulbasaur));
