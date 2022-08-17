@@ -61,7 +61,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Trainer"
+                "$ref": "#/components/schemas/TrainerReqBody"
               }
             }
           },
@@ -300,7 +300,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Trainer"
+                "$ref": "#/components/schemas/TrainerReqBody"
               }
             }
           },
@@ -360,6 +360,26 @@
   },
   "components": {
     "schemas": {
+      "TrainerReqBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "OTHER"
+            ]
+          }
+        }
+      },
       "Pokemon": {
         "type": "object",
         "properties": {

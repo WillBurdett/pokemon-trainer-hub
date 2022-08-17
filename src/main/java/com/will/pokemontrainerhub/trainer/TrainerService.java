@@ -38,15 +38,15 @@ public class TrainerService {
         }
     }
 
-    public void addTrainer(Trainer trainer) {
-        trainerRepository.save(trainer);
+    public void addTrainer(TrainerReqBody trainer) {
+        trainerRepository.save(new Trainer(trainer.getName(), trainer.getAge(), trainer.getGender()));
     }
 
     public void deleteTrainerById(Long id) {
         trainerRepository.deleteById(id);
     }
 
-    public void updateTrainerById(Long id, Trainer trainer) throws TrainerNotFound {
+    public void updateTrainerById(Long id, TrainerReqBody trainer) throws TrainerNotFound {
         Optional<Trainer> trainerById = trainerRepository.findById(id);
         if (trainerById.isPresent()){
             Trainer updateTrainer = trainerById.get();

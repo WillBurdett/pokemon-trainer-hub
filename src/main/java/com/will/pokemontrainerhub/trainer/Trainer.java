@@ -4,6 +4,7 @@ import com.will.pokemontrainerhub.Enums.Gender;
 import com.will.pokemontrainerhub.pokemon.Pokemon;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,12 +41,13 @@ public class Trainer {
     public Trainer() {
     }
 
-    public Trainer(String name, Integer age, Gender gender, List<Pokemon> pokemon) {
+    public Trainer(String name, Integer age, Gender gender) {
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.pokemon = pokemon;
+        this.pokemon = null;
     }
+
 
     public Long getId() {
         return id;
