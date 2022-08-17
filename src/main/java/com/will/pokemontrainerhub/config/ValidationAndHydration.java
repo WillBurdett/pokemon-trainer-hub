@@ -47,20 +47,17 @@ public class ValidationAndHydration {
             Trainer sam  = new Trainer (
                     "Sam",
                     35,
-                    Gender.FEMALE,
-                    null
+                    Gender.FEMALE
             );
             Trainer bob = new Trainer (
                     "Bob",
                     21,
-                    Gender.MALE,
-                    null
+                    Gender.MALE
             );
             Trainer john = new Trainer (
                     "John",
                     89,
-                    Gender.MALE,
-                    null
+                    Gender.MALE
             );
             Pokemon bulbasaur = new Pokemon(
                     "Bulbasaur",
