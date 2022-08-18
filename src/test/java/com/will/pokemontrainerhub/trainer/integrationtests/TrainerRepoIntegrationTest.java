@@ -12,8 +12,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -47,4 +49,50 @@ public class TrainerRepoIntegrationTest {
         // then
         assertThat(actual).isEqualTo(expected);
     }
+
+    @Test
+    public void findByName_thenReturnTrainer() {
+        // given
+        Trainer bob = new Trainer("bob", 2, Gender.MALE);
+        entityManager.persistAndFlush(bob);
+
+        // when
+        Optional<Trainer> actual = trainerRepository.findById(1L);
+
+        // then
+        assertThat(actual.get()).isEqualTo(bob);
+    }
+
+    @Test
+    public void deleteById_DeletesTrainer() {
+        // given
+        Trainer bob = new Trainer ("bob", 2, Gender.MALE);
+        entityManager.persist(bob);
+        entityManager.flush();
+
+        // when
+        trainerRepository.deleteById(1L);
+
+        // then
+        assertThat(trainerRepository.findById(1L)).isEqualTo(Optional.empty());
+    }
+
+    @Test
+    public void UpdateById_UpdatesTrainer() {
+        // given
+        Trainer bob = new Trainer("bob", 2, Gender.MALE);
+        entityManager.persistAndFlush(bob);
+
+        // when
+        bob.setGender(Gender.FEMALE);
+        trainerRepository.save(bob);
+
+        // then
+        assertThat(trainerRepository.findById(1L).get().getGender()).isEqualTo(Gender.FEMALE);
+    }
+
+
+
+
+
 }
