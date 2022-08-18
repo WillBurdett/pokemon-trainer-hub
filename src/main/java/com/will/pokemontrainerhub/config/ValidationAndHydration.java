@@ -41,48 +41,48 @@ public class ValidationAndHydration {
             }
         };
     }
-    @Bean
-    CommandLineRunner commandLineRunner (TrainerRepository trainerRepository, PokemonRepository pokemonRepository){
-        return args -> {
-            Trainer sam  = new Trainer (
-                    "Sam",
-                    35,
-                    Gender.FEMALE
-            );
-            Trainer bob = new Trainer (
-                    "Bob",
-                    21,
-                    Gender.MALE
-            );
-            Trainer john = new Trainer (
-                    "John",
-                    89,
-                    Gender.MALE
-            );
-            Pokemon bulbasaur = new Pokemon(
-                    "Bulbasaur",
-                    Gender.MALE,
-                    7,
-                    0.4,
-                    5.2
-            );
-            Pokemon charmander = new Pokemon(
-                    "Charmander",
-                    Gender.MALE,
-                    7,
-                    0.4,
-                    5.2
-            );
-            Pokemon squirtle = new Pokemon(
-                    "Squirtle",
-                    Gender.MALE,
-                    7,
-                    0.4,
-                    5.2
-            );
-
-            pokemonRepository.saveAll(Arrays.asList(squirtle, charmander, bulbasaur));
-            trainerRepository.saveAll(Arrays.asList(sam, bob, john));
-        };
-    }
+//    @Bean
+//    CommandLineRunner commandLineRunner (TrainerRepository trainerRepository, PokemonRepository pokemonRepository){
+//        return args -> {
+//            Trainer sam  = new Trainer (
+//                    "Sam",
+//                    35,
+//                    Gender.FEMALE
+//            );
+//            Trainer bob = new Trainer (
+//                    "Bob",
+//                    21,
+//                    Gender.MALE
+//            );
+//            Trainer john = new Trainer (
+//                    "John",
+//                    89,
+//                    Gender.MALE
+//            );
+//            Pokemon bulbasaur = new Pokemon(
+//                    "Bulbasaur",
+//                    Gender.MALE,
+//                    7,
+//                    0.4,
+//                    5.2
+//            );
+//            Pokemon charmander = new Pokemon(
+//                    "Charmander",
+//                    Gender.MALE,
+//                    7,
+//                    0.4,
+//                    5.2
+//            );
+//            Pokemon squirtle = new Pokemon(
+//                    "Squirtle",
+//                    Gender.MALE,
+//                    7,
+//                    0.4,
+//                    5.2
+//            );
+//
+//            pokemonRepository.saveAll(Arrays.asList(squirtle, charmander, bulbasaur));
+//            trainerRepository.saveAll(Arrays.asList(sam, bob, john));
+//        };
+//    }
 }
