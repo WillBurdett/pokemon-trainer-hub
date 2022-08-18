@@ -4,16 +4,20 @@ import com.will.pokemontrainerhub.Enums.Gender;
 import com.will.pokemontrainerhub.pokemon.Pokemon;
 import com.will.pokemontrainerhub.trainer.Trainer;
 import com.will.pokemontrainerhub.trainer.TrainerRepository;
+import com.will.pokemontrainerhub.trainer.TrainerService;
 import com.will.pokemontrainerhub.utils.ConvertCollections;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,12 +26,17 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @RunWith(SpringRunner.class)
+@AutoConfigureTestEntityManager
+@Transactional
+@SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@DataJpaTest
-public class TrainerRepoIntegrationTest {
+public class TrainerServiceIntegrationTest {
 
     @Autowired
-    private TestEntityManager entityManager;
+    TestEntityManager entityManager;
+
+    @Autowired
+    TrainerService trainerService;
 
     @Autowired
     private TrainerRepository trainerRepository;
@@ -41,13 +50,15 @@ public class TrainerRepoIntegrationTest {
     public void findAll_ReturnsAllTrainers() throws Exception {
         // given
         Trainer bob = new Trainer("bob", 2, Gender.MALE);
-        Trainer sam = new Trainer("sam", 2, Gender.MALE);
+        Trainer sam = new Trainer( "sam", 2, Gender.MALE);
         entityManager.persistAndFlush(bob);
         entityManager.persistAndFlush(sam);
+        Trainer bobAfterDbEntry = new Trainer(1L,"bob", 2, Gender.MALE, null);
+        Trainer samAfterDbEntry = new Trainer( 2L,"sam", 2, Gender.MALE, null);
 
         // when
-        List<Trainer> actual = trainerRepository.findAll();
-        List <Trainer> expected = Arrays.asList(bob, sam);
+        List<Trainer> actual = trainerService.getAllTrainers();
+        List <Trainer> expected = Arrays.asList(bobAfterDbEntry, samAfterDbEntry);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -56,13 +67,12 @@ public class TrainerRepoIntegrationTest {
     @Test
     public void findById_thenReturnTrainer() {
         // given
-        Trainer bob = new Trainer(1L, "bob", 2, Gender.MALE, new ArrayList<>());
+        Trainer bob = new Trainer(1L,"bob", 2, Gender.MALE, new ArrayList<>());
         entityManager.merge(bob);
         entityManager.flush();
 
-        System.out.println(trainerRepository.findAll());
         // when
-        Optional<Trainer> actual = trainerRepository.findById(1L);
+        Optional<Trainer> actual = trainerService.getTrainerById(1L);
         ArrayList<Pokemon> actualList = ConvertCollections.pokemonToArrayList(actual.get().getPokemon());
         ArrayList<Pokemon> expectedList = ConvertCollections.pokemonToArrayList(bob.getPokemon());
 
@@ -72,8 +82,10 @@ public class TrainerRepoIntegrationTest {
         assertThat(actual.get().getAge()).isEqualTo(bob.getAge());
         assertThat(actual.get().getGender()).isEqualTo(bob.getGender());
         assertThat(actualList).isEqualTo(expectedList);
+
     }
 
+    // TODO: 18/08/2022 carry on tests from here
     @Test
     public void savesTrainer_UpdatesTrainer() {
         // given
