@@ -1,8 +1,10 @@
 package com.will.pokemontrainerhub.trainer.integrationtests;
 
 import com.will.pokemontrainerhub.Enums.Gender;
+import com.will.pokemontrainerhub.pokemon.Pokemon;
 import com.will.pokemontrainerhub.trainer.Trainer;
 import com.will.pokemontrainerhub.trainer.TrainerRepository;
+import com.will.pokemontrainerhub.utils.ConvertCollections;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,14 +69,15 @@ public class TrainerRepoIntegrationTest {
         System.out.println(trainerRepository.findAll());
         // when
         Optional<Trainer> actual = trainerRepository.findById(1L);
+        ArrayList<Pokemon> actualList = ConvertCollections.pokemonToArrayList(actual.get().getPokemon());
+        ArrayList<Pokemon> expectedList = ConvertCollections.pokemonToArrayList(bob.getPokemon());
 
         // then
         assertThat(actual.get().getId()).isEqualTo(bob.getId());
         assertThat(actual.get().getName()).isEqualTo(bob.getName());
         assertThat(actual.get().getAge()).isEqualTo(bob.getAge());
         assertThat(actual.get().getGender()).isEqualTo(bob.getGender());
-        // TODO: 18/08/2022 implement a way to comprehensively compare/test lists
-        // assertThat(actual.get().getPokemon()).isEqualTo(bob.getPokemon());
+        assertThat(actualList).isEqualTo(expectedList);
     }
 
     @Test
