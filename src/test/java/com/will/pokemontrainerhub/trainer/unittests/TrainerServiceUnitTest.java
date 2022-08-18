@@ -1,6 +1,5 @@
 package com.will.pokemontrainerhub.trainer.unittests;
 
-import com.google.common.collect.Lists;
 import com.will.pokemontrainerhub.Enums.Gender;
 import com.will.pokemontrainerhub.pokemon.Pokemon;
 import com.will.pokemontrainerhub.pokemon.PokemonRepository;
@@ -18,12 +17,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(TrainerService.class)
-class TrainerServiceTest {
+class TrainerServiceUnitTest {
 
     @Autowired
     TrainerService trainerService;
