@@ -53,21 +53,35 @@ public class TrainerServiceIntegrationTest {
         Trainer sam = new Trainer( "sam", 2, Gender.MALE);
         entityManager.persistAndFlush(bob);
         entityManager.persistAndFlush(sam);
-        Trainer bobAfterDbEntry = new Trainer(1L,"bob", 2, Gender.MALE, null);
-        Trainer samAfterDbEntry = new Trainer( 2L,"sam", 2, Gender.MALE, null);
 
         // when
-        List<Trainer> actual = trainerService.getAllTrainers();
-        List <Trainer> expected = Arrays.asList(bobAfterDbEntry, samAfterDbEntry);
+        List <Trainer> actual = trainerService.getAllTrainers();
+
+        ArrayList<Pokemon> actualList1 = ConvertCollections.pokemonToArrayList(actual.get(0).getPokemon());
+        ArrayList<Pokemon> expectedList1 = ConvertCollections.pokemonToArrayList(bob.getPokemon());
+
+        ArrayList<Pokemon> actualList2 = ConvertCollections.pokemonToArrayList(actual.get(1).getPokemon());
+        ArrayList<Pokemon> expectedList2 = ConvertCollections.pokemonToArrayList(sam.getPokemon());
 
         // then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual.get(0).getId()).isEqualTo(1L);
+        assertThat(actual.get(0).getName()).isEqualTo(bob.getName());
+        assertThat(actual.get(0).getAge()).isEqualTo(bob.getAge());
+        assertThat(actual.get(0).getGender()).isEqualTo(bob.getGender());
+        assertThat(actualList1).isEqualTo(expectedList1);
+
+        assertThat(actual.get(1).getId()).isEqualTo(2L);
+        assertThat(actual.get(1).getName()).isEqualTo(sam.getName());
+        assertThat(actual.get(1).getAge()).isEqualTo(sam.getAge());
+        assertThat(actual.get(1).getGender()).isEqualTo(sam.getGender());
+        assertThat(actualList2).isEqualTo(expectedList2);
+
     }
 
     @Test
     public void findById_thenReturnTrainer() {
         // given
-        Trainer bob = new Trainer(1L,"bob", 2, Gender.MALE, new ArrayList<>());
+        Trainer bob = new Trainer("bob", 2, Gender.MALE);
         entityManager.merge(bob);
         entityManager.flush();
 
@@ -77,7 +91,7 @@ public class TrainerServiceIntegrationTest {
         ArrayList<Pokemon> expectedList = ConvertCollections.pokemonToArrayList(bob.getPokemon());
 
         // then
-        assertThat(actual.get().getId()).isEqualTo(bob.getId());
+        assertThat(actual.get().getId()).isEqualTo(1L);
         assertThat(actual.get().getName()).isEqualTo(bob.getName());
         assertThat(actual.get().getAge()).isEqualTo(bob.getAge());
         assertThat(actual.get().getGender()).isEqualTo(bob.getGender());
@@ -85,7 +99,6 @@ public class TrainerServiceIntegrationTest {
 
     }
 
-    // TODO: 18/08/2022 carry on tests from here
     @Test
     public void savesTrainer_UpdatesTrainer() {
         // given
@@ -125,9 +138,4 @@ public class TrainerServiceIntegrationTest {
         // then
         assertThat(trainerRepository.findById(1L).get().getGender()).isEqualTo(Gender.FEMALE);
     }
-
-
-
-
-
 }

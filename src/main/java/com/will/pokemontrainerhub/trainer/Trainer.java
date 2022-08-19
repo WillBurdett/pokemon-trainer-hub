@@ -53,7 +53,7 @@ public class Trainer {
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.pokemon = null;
+        this.pokemon = new ArrayList<>();
     }
 
     public Trainer(Long id, String name, Integer age, Gender gender, List<Pokemon> pokemon) {
