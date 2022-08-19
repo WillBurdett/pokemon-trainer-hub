@@ -80,6 +80,25 @@ public class TrainerControllerIntegrationTest {
                 .andExpect(jsonPath("$[0].pokemon", is(new ArrayList())));
     }
 
+    @Test
+    public void getTrainerById() throws Exception {
+        // given
+        Trainer bob = new Trainer("bob", 2, Gender.MALE);
+        entityManager.persist(bob);
+        entityManager.flush();
+        // when
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/trainer/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                // then
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.name", is("bob")))
+                .andExpect(jsonPath("$.age", is(2)))
+                .andExpect(jsonPath("$.gender", is("MALE")))
+                .andExpect(jsonPath("$.pokemon", is(new ArrayList())));
+    }
+
 //    @Test
 //    public void getTrainerByName_ReturnsTrainerWhenExists() throws Exception {
 //        // given
