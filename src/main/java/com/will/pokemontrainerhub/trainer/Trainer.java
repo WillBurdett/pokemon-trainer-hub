@@ -4,6 +4,7 @@ import com.will.pokemontrainerhub.Enums.Gender;
 import com.will.pokemontrainerhub.pokemon.Pokemon;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,16 +31,22 @@ public class Trainer {
             name = "name",
             nullable = false
     )
+    @NotEmpty
+    @Size(min = 2, message = "name must have at least 2 characters")
     private String name;
     @Column(
             name = "age",
             nullable = false
     )
+    @Max(value = 150)
+    @Min(value = 1)
     private Integer age;
     @Column(
             name = "gender",
             nullable = false
     )
+    @NotEmpty
+    @Size(min = 4, message = "name must be MALE, FEMALE or OTHER")
     private Gender gender;
 
     @OneToMany(cascade = CascadeType.PERSIST)
