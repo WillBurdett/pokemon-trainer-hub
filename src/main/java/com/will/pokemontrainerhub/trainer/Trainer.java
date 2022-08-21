@@ -46,7 +46,7 @@ public class Trainer {
             nullable = false
     )
     @NotEmpty
-    @Size(min = 4, message = "name must be MALE, FEMALE or OTHER")
+    @Size(min = 4, message = "gender must be MALE, FEMALE or OTHER")
     private Gender gender;
 
     @OneToMany(cascade = CascadeType.PERSIST)
