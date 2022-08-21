@@ -3,13 +3,28 @@ package com.will.pokemontrainerhub.pokemon;
 import com.will.pokemontrainerhub.Enums.Gender;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class PokemonReqBody {
+    @NotEmpty
+    @Size(min = 2, message = "name must have at least 2 characters")
     private String name;
+    @NotEmpty
+    @Size(min = 4, message = "name must be MALE, FEMALE or OTHER")
     private Gender gender;
+    @NotEmpty
+    @Min(value = 1)
+    @Max(value = 100)
     private Integer level;
+    @NotEmpty
+    @Min(value = 1)
     private Double height;
+    @NotEmpty
+    @Min(value = 1)
     private Double weight;
 
     public PokemonReqBody() {

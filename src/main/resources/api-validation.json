@@ -392,12 +392,23 @@
         }
       },
       "PokemonReqBody": {
+        "required": [
+          "gender",
+          "height",
+          "level",
+          "name",
+          "weight"
+        ],
         "type": "object",
         "properties": {
           "name": {
+            "maxLength": 2147483647,
+            "minLength": 2,
             "type": "string"
           },
           "gender": {
+            "maxLength": 2147483647,
+            "minLength": 4,
             "type": "string",
             "enum": [
               "MALE",
@@ -406,20 +417,31 @@
             ]
           },
           "level": {
+            "maximum": 100,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "height": {
+            "minimum": 1,
             "type": "number",
             "format": "double"
           },
           "weight": {
+            "minimum": 1,
             "type": "number",
             "format": "double"
           }
         }
       },
       "Pokemon": {
+        "required": [
+          "gender",
+          "height",
+          "level",
+          "name",
+          "weight"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -427,9 +449,13 @@
             "format": "int64"
           },
           "name": {
+            "maxLength": 2147483647,
+            "minLength": 2,
             "type": "string"
           },
           "gender": {
+            "maxLength": 2147483647,
+            "minLength": 4,
             "type": "string",
             "enum": [
               "MALE",
@@ -438,14 +464,18 @@
             ]
           },
           "level": {
+            "maximum": 100,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "height": {
+            "minimum": 1,
             "type": "number",
             "format": "double"
           },
           "weight": {
+            "minimum": 1,
             "type": "number",
             "format": "double"
           },
