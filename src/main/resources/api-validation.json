@@ -1,3 +1,4 @@
+
 {
   "openapi": "3.0.1",
   "info": {
@@ -361,16 +362,26 @@
   "components": {
     "schemas": {
       "TrainerReqBody": {
+        "required": [
+          "gender",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "name": {
+            "maxLength": 2147483647,
+            "minLength": 2,
             "type": "string"
           },
           "age": {
+            "maximum": 150,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "gender": {
+            "maxLength": 2147483647,
+            "minLength": 4,
             "type": "string",
             "enum": [
               "MALE",
@@ -445,6 +456,10 @@
         }
       },
       "Trainer": {
+        "required": [
+          "gender",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -452,13 +467,19 @@
             "format": "int64"
           },
           "name": {
+            "maxLength": 2147483647,
+            "minLength": 2,
             "type": "string"
           },
           "age": {
+            "maximum": 150,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "gender": {
+            "maxLength": 2147483647,
+            "minLength": 4,
             "type": "string",
             "enum": [
               "MALE",

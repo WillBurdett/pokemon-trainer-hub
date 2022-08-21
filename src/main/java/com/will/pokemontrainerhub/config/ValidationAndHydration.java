@@ -41,24 +41,24 @@ public class ValidationAndHydration {
             }
         };
     }
-//    @Bean
-//    CommandLineRunner commandLineRunner (TrainerRepository trainerRepository, PokemonRepository pokemonRepository){
-//        return args -> {
-//            Trainer sam  = new Trainer (
-//                    "Sam",
-//                    35,
-//                    Gender.FEMALE
-//            );
-//            Trainer bob = new Trainer (
-//                    "Bob",
-//                    21,
-//                    Gender.MALE
-//            );
-//            Trainer john = new Trainer (
-//                    "John",
-//                    89,
-//                    Gender.MALE
-//            );
+    @Bean
+    CommandLineRunner commandLineRunner (TrainerRepository trainerRepository, PokemonRepository pokemonRepository) {
+        return args -> {
+            Trainer sam = new Trainer(
+                    "",
+                    -1,
+                    Gender.FEMALE
+            );
+            Trainer bob = new Trainer(
+                    "Bob",
+                    21,
+                    Gender.MALE
+            );
+            Trainer john = new Trainer(
+                    "John",
+                    89,
+                    Gender.MALE
+            );
 //            Pokemon bulbasaur = new Pokemon(
 //                    "Bulbasaur",
 //                    Gender.MALE,
@@ -82,7 +82,7 @@ public class ValidationAndHydration {
 //            );
 //
 //            pokemonRepository.saveAll(Arrays.asList(squirtle, charmander, bulbasaur));
-//            trainerRepository.saveAll(Arrays.asList(sam, bob, john));
-//        };
-//    }
+            trainerRepository.saveAll(Arrays.asList(sam, bob, john));
+        };
+    }
 }
