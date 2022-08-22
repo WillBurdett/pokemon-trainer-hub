@@ -30,6 +30,7 @@ public class ValidationAndHydration {
                 false  // enable response validation
         );
     }
+
     @Bean
     public WebMvcConfigurer addOpenApiValidationInterceptor(@Value("classpath:api-validation.json") final Resource apiSpecification) throws IOException {
         final EncodedResource specResource = new EncodedResource(apiSpecification, StandardCharsets.UTF_8);
@@ -41,24 +42,24 @@ public class ValidationAndHydration {
             }
         };
     }
-    @Bean
-    CommandLineRunner commandLineRunner (TrainerRepository trainerRepository, PokemonRepository pokemonRepository) {
-        return args -> {
-            Trainer sam = new Trainer(
-                    "",
-                    -1,
-                    Gender.FEMALE
-            );
-            Trainer bob = new Trainer(
-                    "Bob",
-                    21,
-                    Gender.MALE
-            );
-            Trainer john = new Trainer(
-                    "John",
-                    89,
-                    Gender.MALE
-            );
+//    @Bean
+//    CommandLineRunner commandLineRunner (TrainerRepository trainerRepository, PokemonRepository pokemonRepository) {
+//        return args -> {
+//            Trainer sam = new Trainer(
+//                    "Sam",
+//                    17,
+//                    Gender.FEMALE
+//            );
+//            Trainer bob = new Trainer(
+//                    "Bob",
+//                    21,
+//                    Gender.MALE
+//            );
+//            Trainer john = new Trainer(
+//                    "John",
+//                    89,
+//                    Gender.MALE
+//            );
 //            Pokemon bulbasaur = new Pokemon(
 //                    "Bulbasaur",
 //                    Gender.MALE,
@@ -82,7 +83,7 @@ public class ValidationAndHydration {
 //            );
 //
 //            pokemonRepository.saveAll(Arrays.asList(squirtle, charmander, bulbasaur));
-            trainerRepository.saveAll(Arrays.asList(sam, bob, john));
-        };
-    }
+//            trainerRepository.saveAll(Arrays.asList(sam, bob, john));
+//        };
+//    }
 }
