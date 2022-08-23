@@ -1,13 +1,16 @@
 
-  CREATE TABLE IF NOT EXISTS trainer (
+DROP TABLE IF EXISTS pokemon;
+DROP TABLE IF EXISTS trainer;
+
+CREATE TABLE IF NOT EXISTS trainer (
   trainer_id int AUTO_INCREMENT NOT NULL,
   name varchar(255) NOT NULL,
   age int NOT NULL,
   gender int NOT NULL,
   PRIMARY KEY (trainer_id)
-  );
+ );
 
-  CREATE TABLE IF NOT EXISTS pokemon (
+ CREATE TABLE IF NOT EXISTS pokemon (
   id int AUTO_INCREMENT NOT NULL,
   name varchar(255) NOT NULL,
   level int NOT NULL,
