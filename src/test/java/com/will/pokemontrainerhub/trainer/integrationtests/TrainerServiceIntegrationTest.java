@@ -15,6 +15,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -28,8 +30,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @RunWith(SpringRunner.class)
 @AutoConfigureTestEntityManager
 @Transactional
-@SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@SpringBootTest
 public class TrainerServiceIntegrationTest {
 
     @Autowired
@@ -50,9 +52,7 @@ public class TrainerServiceIntegrationTest {
     public void findAll_ReturnsAllTrainers() throws Exception {
         // given
         Trainer bob = new Trainer("bob", 2, Gender.MALE);
-        Trainer sam = new Trainer( "sam", 2, Gender.MALE);
         entityManager.persistAndFlush(bob);
-        entityManager.persistAndFlush(sam);
 
         // when
         List <Trainer> actual = trainerService.getAllTrainers();
@@ -60,22 +60,12 @@ public class TrainerServiceIntegrationTest {
         ArrayList<Pokemon> actualList1 = ConvertCollections.pokemonToArrayList(actual.get(0).getPokemon());
         ArrayList<Pokemon> expectedList1 = ConvertCollections.pokemonToArrayList(bob.getPokemon());
 
-        ArrayList<Pokemon> actualList2 = ConvertCollections.pokemonToArrayList(actual.get(1).getPokemon());
-        ArrayList<Pokemon> expectedList2 = ConvertCollections.pokemonToArrayList(sam.getPokemon());
-
         // then
         assertThat(actual.get(0).getId()).isEqualTo(1L);
         assertThat(actual.get(0).getName()).isEqualTo(bob.getName());
         assertThat(actual.get(0).getAge()).isEqualTo(bob.getAge());
         assertThat(actual.get(0).getGender()).isEqualTo(bob.getGender());
         assertThat(actualList1).isEqualTo(expectedList1);
-
-        assertThat(actual.get(1).getId()).isEqualTo(2L);
-        assertThat(actual.get(1).getName()).isEqualTo(sam.getName());
-        assertThat(actual.get(1).getAge()).isEqualTo(sam.getAge());
-        assertThat(actual.get(1).getGender()).isEqualTo(sam.getGender());
-        assertThat(actualList2).isEqualTo(expectedList2);
-
     }
 
     @Test
@@ -118,11 +108,13 @@ public class TrainerServiceIntegrationTest {
         entityManager.persist(bob);
         entityManager.flush();
 
+        System.out.println(trainerRepository.findAll());
+
         // when
         trainerRepository.deleteById(1L);
 
         // then
-        assertThat(trainerRepository.findById(1L)).isEqualTo(Optional.empty());
+        assertThat(trainerRepository.findAll().size()).isEqualTo(0);
     }
 
     @Test
