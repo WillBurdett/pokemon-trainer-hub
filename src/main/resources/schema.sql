@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS trainer (
   name varchar(255) NOT NULL,
   age int NOT NULL,
   gender int NOT NULL,
-  PRIMARY KEY (trainer_id)
+  PRIMARY KEY (trainer_id),
+  CHECK (age>=1),
+  CHECK (age<=150)
  );
 
  CREATE TABLE IF NOT EXISTS pokemon (
@@ -21,5 +23,9 @@ CREATE TABLE IF NOT EXISTS trainer (
   PRIMARY KEY (id),
   CONSTRAINT FK_trainer_id
   FOREIGN KEY (trainer_id)
-  REFERENCES trainer (trainer_id)
+  REFERENCES trainer (trainer_id),
+  CHECK (level<=100),
+  CHECK (level>=1),
+  CHECK (weight>0),
+  CHECK (height>0)
 );

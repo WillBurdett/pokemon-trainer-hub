@@ -13,16 +13,7 @@ import java.util.Objects;
 @Table(name = "pokemon")
 public class Pokemon {
     @Id
-//    @SequenceGenerator(
-//            name = "pokemon_sequence",
-//            sequenceName = "pokemon_sequence",
-//            allocationSize = 1
-//    )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//            (
-//            strategy = GenerationType.SEQUENCE,
-//            generator = "pokemon_sequence"
-//    )
     @Column(
             name = "id",
             nullable = false

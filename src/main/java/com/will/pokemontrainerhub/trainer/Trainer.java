@@ -13,16 +13,7 @@ import java.util.Objects;
 @Table(name = "trainer")
 public class Trainer {
     @Id
-//    @SequenceGenerator(
-//            name = "trainer_sequence",
-//            sequenceName = "trainer_sequence",
-//            allocationSize = 1
-//    )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//            (
-//            strategy = GenerationType.SEQUENCE,
-//            generator = "trainer_sequence"
-//    )
     @Column(
             name = "trainer_id",
             nullable = false
