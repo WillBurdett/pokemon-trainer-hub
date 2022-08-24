@@ -1,0 +1,32 @@
+
+version: "3"
+services:
+  mysqldb:
+    platform: linux/x86_64
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=pokemontrainerdb
+    ports:
+      - "3307:3307"
+    volumes:
+      - data:/data
+  pokemon-trainer-hub:
+    image: pokemon-trainer-hub:latest
+    container_name: pokemon-trainer-hub
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/pokemontrainerdb?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+volumes:
+  data: {}
+
+
+
+
+
