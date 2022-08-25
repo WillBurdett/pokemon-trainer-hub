@@ -43,7 +43,12 @@ public class TrainerService {
     }
 
     public void deleteTrainerById(Long id) {
-        trainerRepository.deleteById(id);
+        Optional<Trainer> trainerWithName = trainerRepository.findById(id);
+        if (trainerWithName.isPresent()){
+            trainerRepository.deleteById(id);
+        } else {
+            throw new TrainerNotFound("trainer with id " + id + " not found");
+        }
     }
 
     public void updateTrainerById(Long id, TrainerReqBody trainer) throws TrainerNotFound {
