@@ -35,7 +35,12 @@ public class PokemonService {
     }
 
     public void deletePokemonById(Long id) {
-        pokemonRepository.deleteById(id);
+        Optional<Pokemon> pokemonWithName = pokemonRepository.findById(id);
+        if (pokemonWithName.isPresent()){
+            pokemonRepository.deleteById(id);
+        } else {
+            throw new PokemonNotFound("pokemon with id " + id + " not found");
+        }
     }
 
     public void updatePokemonById(Long id, PokemonReqBody pokemon) throws PokemonNotFound {
