@@ -1,5 +1,6 @@
 package com.will.pokemontrainerhub.trainer;
 
+import com.will.pokemontrainerhub.Exceptions.NoTrainersFound;
 import com.will.pokemontrainerhub.Exceptions.PokemonNotFound;
 import com.will.pokemontrainerhub.Exceptions.TrainerNotFound;
 import com.will.pokemontrainerhub.pokemon.Pokemon;
@@ -26,7 +27,11 @@ public class TrainerService {
     }
 
     public List<Trainer> getAllTrainers() {
-        return trainerRepository.findAll();
+        List <Trainer> allTrainers = trainerRepository.findAll();
+        if (allTrainers.size() == 0){
+            throw new NoTrainersFound("no trainers found");
+        }
+        return allTrainers;
     }
 
     public Optional<Trainer> getTrainerById(Long id) throws TrainerNotFound {
@@ -43,7 +48,12 @@ public class TrainerService {
     }
 
     public void deleteTrainerById(Long id) {
-        trainerRepository.deleteById(id);
+        Optional<Trainer> trainerWithName = trainerRepository.findById(id);
+        if (trainerWithName.isPresent()){
+            trainerRepository.deleteById(id);
+        } else {
+            throw new TrainerNotFound("trainer with id " + id + " not found");
+        }
     }
 
     public void updateTrainerById(Long id, TrainerReqBody trainer) throws TrainerNotFound {

@@ -1,6 +1,7 @@
 package com.will.pokemontrainerhub.trainer.unittests;
 
 import com.will.pokemontrainerhub.Enums.Gender;
+import com.will.pokemontrainerhub.Exceptions.TrainerNotFound;
 import com.will.pokemontrainerhub.pokemon.Pokemon;
 import com.will.pokemontrainerhub.pokemon.PokemonRepository;
 import com.will.pokemontrainerhub.trainer.Trainer;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -62,6 +64,18 @@ class TrainerServiceUnitTest {
     }
 
     @Test
+    void getTrainerById_ThrowsExceptionIfTrainerIdNotExist() {
+        Long id = 1L;
+        when(trainerRepository.findById(1L)).thenReturn(Optional.empty());
+        // when
+        assertThatThrownBy(() -> {
+            trainerService.getTrainerById(id);
+            // then
+        }).isInstanceOf(TrainerNotFound.class)
+                .hasMessage("trainer with id " + id + " not found");
+    }
+
+    @Test
     void addTrainer() {
         // given
         TrainerReqBody bobReqBody = new TrainerReqBody("bob", 1, Gender.MALE);
@@ -75,11 +89,26 @@ class TrainerServiceUnitTest {
     @Test
     void deleteTrainerById() {
         // given
+        Trainer bob = new Trainer(1L, "bob", 1, Gender.MALE, new ArrayList<>());
         Long id = 1L;
+        when(trainerRepository.findById(1L)).thenReturn(Optional.of(bob));
         // when
         trainerService.deleteTrainerById(id);
         // then
         verify(trainerRepository, times( 1)).deleteById(id);
+    }
+
+    @Test
+    void deleteTrainerById_ThrowsExceptionIfTrainerIdNotExist() {
+        // given
+        Long id = 1L;
+        when(trainerRepository.findById(1L)).thenReturn(Optional.empty());
+        // when
+        assertThatThrownBy(() -> {
+            trainerService.deleteTrainerById(id);
+            // then
+        }).isInstanceOf(TrainerNotFound.class)
+                .hasMessage("trainer with id " + id + " not found");
     }
 
     @Test
