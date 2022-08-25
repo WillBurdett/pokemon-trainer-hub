@@ -1,6 +1,9 @@
 package com.will.pokemontrainerhub.pokemon;
 
+import com.will.pokemontrainerhub.Exceptions.NoPokemonFound;
+import com.will.pokemontrainerhub.Exceptions.NoTrainersFound;
 import com.will.pokemontrainerhub.Exceptions.PokemonNotFound;
+import com.will.pokemontrainerhub.trainer.Trainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,10 @@ public class PokemonService {
     }
 
     public List<Pokemon> getAllPokemon() {
+        List <Pokemon> allPokemon = pokemonRepository.findAll();
+        if (allPokemon.size() == 0){
+            throw new NoPokemonFound("no pokemon found");
+        }
         return pokemonRepository.findAll();
     }
 
