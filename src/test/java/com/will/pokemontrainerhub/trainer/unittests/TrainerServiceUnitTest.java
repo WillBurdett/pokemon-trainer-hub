@@ -124,6 +124,20 @@ class TrainerServiceUnitTest {
     }
 
     @Test
+    void updateTrainerById_ThrowsExceptionIfTrainerIdNotExist() {
+        // given
+        Long id = 1L;
+        TrainerReqBody bobReqBody = new TrainerReqBody("bob", 1, Gender.MALE);
+        when(trainerRepository.findById(1L)).thenReturn(Optional.empty());
+        // when
+        assertThatThrownBy(() -> {
+            trainerService.updateTrainerById(id, bobReqBody);
+            // then
+        }).isInstanceOf(TrainerNotFound.class)
+                .hasMessage("trainer with id " + id + " not found");
+    }
+
+    @Test
     void addOnePokemonByIdToTrainer() {
         // given
         Trainer bob = new Trainer(1L, "bob", 1, Gender.MALE, new ArrayList<>());
