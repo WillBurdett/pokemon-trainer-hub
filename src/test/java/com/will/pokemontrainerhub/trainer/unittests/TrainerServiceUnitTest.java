@@ -1,6 +1,8 @@
 package com.will.pokemontrainerhub.trainer.unittests;
 
 import com.will.pokemontrainerhub.Enums.Gender;
+import com.will.pokemontrainerhub.Exceptions.NoTrainersFound;
+import com.will.pokemontrainerhub.Exceptions.PokemonNotFound;
 import com.will.pokemontrainerhub.Exceptions.TrainerNotFound;
 import com.will.pokemontrainerhub.pokemon.Pokemon;
 import com.will.pokemontrainerhub.pokemon.PokemonRepository;
@@ -47,6 +49,19 @@ class TrainerServiceUnitTest {
         // then
         verify(trainerRepository, times(1)).findAll();
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getAllTrainers_ThrowsExceptionIfNoTrainersExist() {
+        // given
+        when(trainerRepository.findAll()).thenReturn(Arrays.asList());
+
+        // when
+        assertThatThrownBy(() -> {
+            trainerService.getAllTrainers();
+            // then
+        }).isInstanceOf(NoTrainersFound.class)
+                .hasMessage("no trainers found");
     }
 
     @Test
@@ -151,6 +166,20 @@ class TrainerServiceUnitTest {
     }
 
     @Test
+    void addOnePokemonByIdToTrainer_ThrowsExceptionIfPokemonIdNotExist() {
+        // given
+        Long id = 1L;
+        Trainer bob = new Trainer(1L, "bob", 1, Gender.MALE, new ArrayList<>());
+        when(pokemonRepository.findById(1L)).thenReturn(Optional.empty());
+        // when
+        assertThatThrownBy(() -> {
+            trainerService.addOnePokemonByIdToTrainer(bob, id);
+            // then
+        }).isInstanceOf(PokemonNotFound.class)
+                .hasMessage("pokemon with id " + id + " not found");
+    }
+
+    @Test
     void removeOnePokemonByIdFromTrainer() {
         // given
         Pokemon pikachu = new Pokemon(1L, "pikachu", Gender.FEMALE, 3, 3.3, 3.3, null);
@@ -163,6 +192,20 @@ class TrainerServiceUnitTest {
         // then
         assertThat(bob.getPokemon().size()).isEqualTo(0);
         verify(trainerRepository, times( 1)).save(bob);
+    }
+
+    @Test
+    void removeOnePokemonByIdFromTrainer_ThrowsExceptionIfPokemonIdNotExist() {
+        // given
+        Long id = 1L;
+        Trainer bob = new Trainer(1L, "bob", 1, Gender.MALE, new ArrayList<>());
+        when(pokemonRepository.findById(1L)).thenReturn(Optional.empty());
+        // when
+        assertThatThrownBy(() -> {
+            trainerService.removeOnePokemonByIdFromTrainer(bob, id);
+            // then
+        }).isInstanceOf(PokemonNotFound.class)
+                .hasMessage("pokemon with id " + id + " not found");
     }
 
     @Test
@@ -180,6 +223,19 @@ class TrainerServiceUnitTest {
     }
 
     @Test
+    void addPokemonToTrainer_ThrowsExceptionIfTrainerIdNotExist() {
+        // given
+        Long id = 1L;
+        when(trainerRepository.findById(1L)).thenReturn(Optional.empty());
+        // when
+        assertThatThrownBy(() -> {
+            trainerService.addPokemonToTrainer(id, "1");
+            // then
+        }).isInstanceOf(TrainerNotFound.class)
+                .hasMessage("trainer with id " + id + " not found");
+    }
+
+    @Test
     void removePokemonFromTrainer() {
         // given
         Pokemon pikachu = new Pokemon(1L, "pikachu", Gender.FEMALE, 3, 3.3, 3.3, null);
@@ -193,6 +249,19 @@ class TrainerServiceUnitTest {
         // then
         assertThat(bob.getPokemon().size()).isEqualTo(0);
         verify(trainerRepository, times( 1)).save(bob);
+    }
+
+    @Test
+    void removePokemonFromTrainer_ThrowsExceptionIfTrainerIdNotExist() {
+        // given
+        Long id = 1L;
+        when(trainerRepository.findById(1L)).thenReturn(Optional.empty());
+        // when
+        assertThatThrownBy(() -> {
+            trainerService.removePokemonFromTrainer(id, "1");
+            // then
+        }).isInstanceOf(TrainerNotFound.class)
+                .hasMessage("trainer with id " + id + " not found");
     }
 
     @Test
