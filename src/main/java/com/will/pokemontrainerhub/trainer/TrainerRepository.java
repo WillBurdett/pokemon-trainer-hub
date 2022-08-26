@@ -1,8 +1,8 @@
 package com.will.pokemontrainerhub.trainer;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@Repository
-public interface TrainerRepository extends JpaRepository<Trainer, Long> {
+@RepositoryRestResource(collectionResourceRel = "trainer", path = "trainer")
+public interface TrainerRepository extends PagingAndSortingRepository<Trainer, Long> {
 }
